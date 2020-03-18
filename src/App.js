@@ -4,43 +4,51 @@ import './App.css';
 
 class App extends React.Component {
   state = {
-    userImages: [],
-    userText: ""
+    followers: []
+    // userImages: "",
+    // userLogin: "",
+    // userName: "",
+    // userLocation: "",
+    // userWebsite: "",
+    // userRepos: "",
+    // userFollowers: "",
+    // userId: ""
   };
 
   componentDidMount() {
-    fetch("https://api.github.com/users/flowersfairie")
+    fetch("https://api.github.com/users/flowersfaerie/followers")
       .then(response => response.json())
       .then(users => {
         console.log("sf: App.js: CDM: fetch: then2: users: ", users);
-        this.setState({userImages: users.message});
+        this.setState({
+          followers: users
+        //     userImages: users.avatar_url,
+        //     userLogin: users.login,
+        //     userName: users.name,
+        //     userLocation: users.location,
+        //     userWebsite: users.blog,
+        //     userRepos: users.repos_url,
+        //     userFollowers: users.followers_url,
+        //     userId: users.id
+        })
       })
       .catch(error => console.error(error));
   }
 
-  handleChanges = e => {
-    this.setState({ ...this.state, userText: e.target.value});
-  };
-
-  // handleFetchUsers = e => {
-  //   e.preventDefault();
-  //   fetch()
-  // }
-
   render() {
     return (
       <div className="App">
-        <h1>Sarah's Followers!</h1>
-        {/* <input
-          type="text"
-          value={this.state.userText}
-          onChange={this.handleChanges}
-        />
-        <button onClick={this.handleFetchUsers}>Fetch User</button> */}
-        <br />
-        {this.state.userImages.map(userImg => {
-          return <img alt="user" src={userImg} />
-        })}
+        {this.state.followers.map(login => {
+          return (
+            <>
+              <h1>{login.login}</h1>
+              <img alt="user" src={login.avatar_url} />
+              {/* <h2>{`Location: ${login.location}`}</h2>
+              <p>{`Website: ${login.blog}`}</p> */}
+              <p>{`Repositories: ${login.repos_url}`}</p>
+            </>
+         )}
+      )}
       </div>
     )
   }
